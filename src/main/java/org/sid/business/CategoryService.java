@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
 
-    Page<Category> getCategories(Pageable pageable);
-
     Category getCategory(final Long id);
+
+    Page<Category> getCategories(final Pageable pageable);
 
     Category createCategory(final Category category);
 

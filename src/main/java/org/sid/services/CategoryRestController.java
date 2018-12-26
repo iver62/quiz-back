@@ -22,10 +22,10 @@ public class CategoryRestController {
 
     @GetMapping
     public Page<Category> getCategories(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "property", defaultValue = "name") String property,
-            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+            @RequestParam(value = "page", defaultValue = "0") final int page,
+            @RequestParam(value = "size", defaultValue = "10") final int size,
+            @RequestParam(value = "property", defaultValue = "name") final String property,
+            @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         return categoryService.getCategories(PageRequest.of(page, size, new Sort(dir, property)));
     }
