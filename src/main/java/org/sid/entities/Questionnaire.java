@@ -1,9 +1,6 @@
 package org.sid.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Questionnaire implements Serializable {
 
     @Id
@@ -22,8 +20,8 @@ public class Questionnaire implements Serializable {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user")
-    private User user;
+    @JoinColumn(name = "id_player")
+    private Player player;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))

@@ -1,7 +1,9 @@
 package org.sid.business;
 
 import org.sid.entities.Player;
+import org.sid.entities.Question;
 import org.sid.repository.PlayerRepository;
+import org.sid.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,9 @@ public class PlayerServiceImpl implements PlayerService {
     private PlayerRepository playerRepository;
 
     @Autowired
+    private QuestionRepository questionRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -25,6 +30,11 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Page<Player> getPlayers(final Pageable pageable) {
         return this.playerRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Question> getQuestions(Long id, Pageable pageable) {
+        return this.questionRepository.findByPlayer(id, pageable);
     }
 
     @Override

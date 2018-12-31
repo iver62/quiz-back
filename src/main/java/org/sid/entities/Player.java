@@ -1,9 +1,7 @@
 package org.sid.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.sid.security.Role;
 
 import javax.persistence.*;
@@ -15,6 +13,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Player implements Serializable {
 
     @Id
@@ -24,6 +23,7 @@ public class Player implements Serializable {
     @Column(nullable = false, unique = true)
     private String pseudo;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 

@@ -5,6 +5,7 @@ import org.sid.entities.Questionnaire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,12 +26,12 @@ public class QuestionnaireRestController {
     }
 
     @PostMapping
-    public Questionnaire saveQuestionnaire(@RequestBody final Questionnaire questionnaire) {
+    public Questionnaire saveQuestionnaire(@Valid @RequestBody final Questionnaire questionnaire) {
         return questionnaireService.createQuestionnaire(questionnaire);
     }
 
     @PutMapping(value = "{id}")
-    public Questionnaire updateQuestionnaire(@PathVariable final Long id, @RequestBody final Questionnaire questionnaire) {
+    public Questionnaire updateQuestionnaire(@PathVariable final Long id, @Valid @RequestBody final Questionnaire questionnaire) {
         return questionnaireService.updateQuestionnaire(id, questionnaire);
     }
 

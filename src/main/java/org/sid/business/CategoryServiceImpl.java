@@ -1,7 +1,9 @@
 package org.sid.business;
 
 import org.sid.entities.Category;
+import org.sid.entities.Question;
 import org.sid.repository.CategoryRepository;
+import org.sid.repository.QuestionRepository;
 import org.sid.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private QuestionRepository questionRepository;
+
     @Override
     public Category getCategory(final Long id) {
         return this.categoryRepository.findById(id).orElse(null);
@@ -22,6 +27,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<Category> getCategories(final Pageable pageable) {
         return this.categoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Question> getQuestions(Long idCategory, Pageable pageable) {
+        return this.questionRepository.findByCategory(idCategory, pageable);
     }
 
     @Override
