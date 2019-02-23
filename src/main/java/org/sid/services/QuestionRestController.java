@@ -24,7 +24,6 @@ public class QuestionRestController {
         return questionService.getQuestion(id);
     }
 
-    @GetMapping
     public Page<Question> getQuestions(
             @RequestParam(value = "page", defaultValue = "0") final int page,
             @RequestParam(value = "size", defaultValue = "10") final int size,
@@ -32,6 +31,39 @@ public class QuestionRestController {
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         return questionService.getQuestions(PageRequest.of(page, size, new Sort(dir, property)));
+    }
+
+    @GetMapping("category/{idCategory}")
+    public Page<Question> getQuestionsByCategory(
+            @PathVariable final Long idCategory,
+            @RequestParam(value = "page", defaultValue = "0") final int page,
+            @RequestParam(value = "size", defaultValue = "10") final int size,
+            @RequestParam(value = "property", defaultValue = "title") final String property,
+            @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
+        Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        return questionService.getQuestionsByCategory(idCategory, PageRequest.of(page, size, new Sort(dir, property)));
+    }
+
+    @GetMapping("level/{idLevel}")
+    public Page<Question> getQuestionsByLevel(
+            @PathVariable final Long idLevel,
+            @RequestParam(value = "page", defaultValue = "0") final int page,
+            @RequestParam(value = "size", defaultValue = "10") final int size,
+            @RequestParam(value = "property", defaultValue = "title") final String property,
+            @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
+        Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        return questionService.getQuestionsByLevel(idLevel, PageRequest.of(page, size, new Sort(dir, property)));
+    }
+
+    @GetMapping("player/{idPlayer}")
+    public Page<Question> getQuestionsByPlayer(
+            @PathVariable final Long idPlayer,
+            @RequestParam(value = "page", defaultValue = "0") final int page,
+            @RequestParam(value = "size", defaultValue = "10") final int size,
+            @RequestParam(value = "property", defaultValue = "title") final String property,
+            @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
+        Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        return questionService.getQuestionsByPlayer(idPlayer, PageRequest.of(page, size, new Sort(dir, property)));
     }
 
     @GetMapping(value = "{id}/answers")

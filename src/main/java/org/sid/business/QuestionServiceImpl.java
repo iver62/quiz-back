@@ -32,6 +32,21 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public Page<Question> getQuestionsByCategory(Long idCategory, Pageable pageable) {
+        return this.questionRepository.findByCategory(idCategory, pageable);
+    }
+
+    @Override
+    public Page<Question> getQuestionsByLevel(Long idLevel, Pageable pageable) {
+        return this.questionRepository.findByLevel(idLevel, pageable);
+    }
+
+    @Override
+    public Page<Question> getQuestionsByPlayer(Long idPlayer, Pageable pageable) {
+        return this.questionRepository.findByPlayer(idPlayer, pageable);
+    }
+
+    @Override
     public List<Answer> getAnswers(final Long id) {
         return null;
     }
