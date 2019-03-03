@@ -4,18 +4,27 @@ import org.sid.entities.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    @Query("SELECT q FROM Question q WHERE q.category.id = :c")
-    Page<Question> findByCategory(@Param("c") final Long idCategory, Pageable pageable);
+    Page<Question> findByCategoryId(final Long idCategory, final Pageable pageable);
 
-    @Query("SELECT q FROM Question q WHERE q.level.id = :l")
-    Page<Question> findByLevel(@Param("l") final Long idLevel, Pageable pageable);
+    Page<Question> findByLevelId(final Long idLevel, final Pageable pageable);
 
-    @Query("SELECT q FROM Question q WHERE q.player.id = :p")
-    Page<Question> findByPlayer(@Param("p") final Long idPlayer, Pageable pageable);
+    Page<Question> findByPlayerId(final Long idPlayer, final Pageable pageable);
+
+    Page<Question> findByCategoryIdAndLevelId(final Long idCategory, final Long idLevel, final Pageable pageable);
+
+    Page<Question> findByCategoryIdAndPlayerId(final Long idCategory, final Long idPlayer, final Pageable pageable);
+
+    Page<Question> findByLevelIdAndPlayerId(final Long idLevel, final Long idPlayer, final Pageable pageable);
+
+    Page<Question> findByCategoryIdAndLevelIdAndPlayerId(final Long idCategory, final Long idLevel, final Long idPlayer, final Pageable pageable);
+
+    List<Question> findByCategoryIdAndLevelIdAndPlayerIdNot(final Long idCategory, final Long idLevel, final Long idPlayer);
 
 }

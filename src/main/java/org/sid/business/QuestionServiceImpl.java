@@ -1,16 +1,13 @@
 package org.sid.business;
 
-import org.sid.entities.Answer;
 import org.sid.entities.Question;
-import org.sid.repository.AnswerRepository;
-import org.sid.repository.QuestionRepository;
+import org.sid.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -21,34 +18,38 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private AnswerRepository answerRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private LevelRepository levelRepository;
+
+    @Autowired
+    private PlayerRepository playerRepository;
+
     @Override
     public Question getQuestion(final Long id) {
         return this.questionRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Page<Question> getQuestions(final Pageable pageable) {
-        return this.questionRepository.findAll(pageable);
-    }
-
-    @Override
-    public Page<Question> getQuestionsByCategory(Long idCategory, Pageable pageable) {
-        return this.questionRepository.findByCategory(idCategory, pageable);
-    }
-
-    @Override
-    public Page<Question> getQuestionsByLevel(Long idLevel, Pageable pageable) {
-        return this.questionRepository.findByLevel(idLevel, pageable);
-    }
-
-    @Override
-    public Page<Question> getQuestionsByPlayer(Long idPlayer, Pageable pageable) {
-        return this.questionRepository.findByPlayer(idPlayer, pageable);
-    }
-
-    @Override
-    public List<Answer> getAnswers(final Long id) {
-        return null;
+    public Page<Question> getQuestions(final Long idCategory, final Long idLevel, final Long idPlayer, final Pageable pageable) {
+        if (idCategory == null) {
+            if (idLevel == null) {
+                return questionRepository.findByPlayerId(idPlayer, pageable);
+            } else if (idPlayer == null) {
+                return questionRepository.findByLevelId(idLevel, pageable);
+            }
+            return questionRepository.findByLevelIdAndPlayerId(idLevel, idPlayer, pageable);
+        } else if (idLevel == null) {
+            if (idPlayer == null) {
+                return questionRepository.findByCategoryId(idCategory, pageable);
+            }
+            return questionRepository.findByCategoryIdAndPlayerId(idCategory, idPlayer, pageable);
+        } else if (idPlayer == null) {
+            return questionRepository.findByCategoryIdAndLevelId(idCategory, idLevel, pageable);
+        }
+        return this.questionRepository.findByCategoryIdAndLevelIdAndPlayerId(idCategory, idLevel, idPlayer, pageable);
     }
 
     @Override

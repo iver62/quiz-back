@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,12 +28,12 @@ public class Question implements Serializable {
     private String image;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "id_level")
-    private Level level;
-
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "id_category")
     private Category category;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "id_level")
+    private Level level;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "id_player")
