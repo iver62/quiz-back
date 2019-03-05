@@ -45,17 +45,17 @@ public class LevelRestController {
     }
 
     @PostMapping
-    public Level create(@Valid @RequestBody final Level level) {
+    public Level createLevel(@Valid @RequestBody final Level level) {
         return levelService.createLevel(level);
     }
 
     @PutMapping(value = "{id}")
-    public Level update(@PathVariable final Long id, @Valid @RequestBody final Level level) {
+    public Level updateLevel(@PathVariable final Long id, @Valid @RequestBody final Level level) {
         return levelService.updateLevel(id, level);
     }
 
     @DeleteMapping(value = "{id}")
-    public void delete(@PathVariable final Long id) {
+    public void deleteLevel(@PathVariable final Long id) {
         levelService.deleteLevel(id);
     }
 

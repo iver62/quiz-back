@@ -45,17 +45,17 @@ public class CategoryRestController {
     }
 
     @PostMapping
-    public Category create(@Valid @RequestBody final Category category) {
+    public Category createCategory(@Valid @RequestBody final Category category) {
         return categoryService.createCategory(category);
     }
 
     @PutMapping(value = "{id}")
-    public Category update(@PathVariable final Long id, @Valid @RequestBody final Category category) {
+    public Category updateCategory(@PathVariable final Long id, @Valid @RequestBody final Category category) {
         return categoryService.updateCategory(id, category);
     }
 
     @DeleteMapping(value = "{id}")
-    public void delete(@PathVariable final Long id) {
+    public void deleteCategory(@PathVariable final Long id) {
         categoryService.deleteCategory(id);
     }
 

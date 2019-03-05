@@ -45,17 +45,17 @@ public class PlayerRestController {
     }
 
     @PostMapping
-    public Player create(@Valid @RequestBody final Player player) {
+    public Player createPlayer(@Valid @RequestBody final Player player) {
         return this.playerService.createPlayer(player);
     }
 
     @PutMapping(value = "{id}")
-    public Player update(@PathVariable final Long id, @Valid @RequestBody final Player player) {
+    public Player updatePlayer(@PathVariable final Long id, @Valid @RequestBody final Player player) {
         return this.playerService.updatePlayer(id, player);
     }
 
     @DeleteMapping(value = "{id}")
-    public void delete(@PathVariable final Long id) {
+    public void deletePlayer(@PathVariable final Long id) {
         this.playerService.deletePlayer(id);
     }
 

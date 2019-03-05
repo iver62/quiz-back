@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -31,12 +33,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Page<Question> getQuestions(Long idCategory, Pageable pageable) {
-        return this.questionRepository.findByCategory(idCategory, pageable);
+        return this.questionRepository.findByCategoryId(idCategory, pageable);
     }
 
     @Override
     public Category createCategory(final Category category) {
         category.setName(Utils.capitalizeFirstLetter(category.getName()));
+        category.setCreationDate(new Date());
+        category.setLastUpdate(new Date());
         return this.categoryRepository.save(category);
     }
 

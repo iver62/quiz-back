@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class LevelServiceImpl implements LevelService {
 
@@ -29,14 +31,17 @@ public class LevelServiceImpl implements LevelService {
         return this.levelRepository.findAll(pageable);
     }
 
+
     @Override
     public Page<Question> getQuestions(Long idLevel, Pageable pageable) {
-        return this.questionRepository.findByLevel(idLevel, pageable);
+        return this.questionRepository.findByLevelId(idLevel, pageable);
     }
 
     @Override
     public Level createLevel(final Level level) {
         level.setName(Utils.capitalizeFirstLetter(level.getName()));
+        level.setCreationDate(new Date());
+        level.setLastUpdate(new Date());
         return this.levelRepository.save(level);
     }
 

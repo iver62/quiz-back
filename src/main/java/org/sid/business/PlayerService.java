@@ -11,7 +11,7 @@ public interface PlayerService {
 
     Page<Player> getPlayers(final Pageable pageable);
 
-    Page<Question> getQuestions(final Long id, final Pageable pageable);
+    Page<Question> getQuestions(final Long idPlayer, final Pageable pageable);
 
     Player createPlayer(final Player player);
 

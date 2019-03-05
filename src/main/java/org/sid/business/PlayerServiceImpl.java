@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
@@ -33,13 +35,15 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Page<Question> getQuestions(Long id, Pageable pageable) {
-        return this.questionRepository.findByPlayer(id, pageable);
+    public Page<Question> getQuestions(Long idPlayer, Pageable pageable) {
+        return this.questionRepository.findByPlayerId(idPlayer, pageable);
     }
 
     @Override
     public Player createPlayer(final Player player) {
         player.setPassword(this.passwordEncoder.encode(player.getPassword()));
+        player.setInscription(new Date());
+        player.setLastUpdate(new Date());
         return this.playerRepository.save(player);
     }
 
