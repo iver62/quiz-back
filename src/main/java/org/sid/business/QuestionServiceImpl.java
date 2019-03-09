@@ -29,13 +29,16 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question getQuestion(final Long id) {
-        return this.questionRepository.findById(id).orElse(null);
+        return questionRepository.findById(id).orElse(null);
     }
 
     @Override
     public Page<Question> getQuestions(final Long idCategory, final Long idLevel, final Long idPlayer, final Pageable pageable) {
         if (idCategory == null) {
             if (idLevel == null) {
+                if (idPlayer == null) {
+                    return questionRepository.findAll(pageable);
+                }
                 return questionRepository.findByPlayerId(idPlayer, pageable);
             } else if (idPlayer == null) {
                 return questionRepository.findByLevelId(idLevel, pageable);
@@ -49,7 +52,7 @@ public class QuestionServiceImpl implements QuestionService {
         } else if (idPlayer == null) {
             return questionRepository.findByCategoryIdAndLevelId(idCategory, idLevel, pageable);
         }
-        return this.questionRepository.findByCategoryIdAndLevelIdAndPlayerId(idCategory, idLevel, idPlayer, pageable);
+        return questionRepository.findByCategoryIdAndLevelIdAndPlayerId(idCategory, idLevel, idPlayer, pageable);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.getAnswers().forEach(answer -> answer.setQuestion(question));
         question.setCreationDate(new Date());
         question.setLastUpdate(new Date());
-        return this.questionRepository.save(question);
+        return questionRepository.save(question);
     }
 
     @Override
@@ -65,11 +68,11 @@ public class QuestionServiceImpl implements QuestionService {
         question.setId(id);
         question.setLastUpdate(new Date());
         question.getAnswers().forEach(answer -> answer.setQuestion(question));
-        return this.questionRepository.save(question);
+        return questionRepository.save(question);
     }
 
     @Override
     public void deleteQuestion(final Long id) {
-        this.questionRepository.deleteById(id);
+        questionRepository.deleteById(id);
     }
 }

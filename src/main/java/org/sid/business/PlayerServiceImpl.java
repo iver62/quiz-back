@@ -26,37 +26,37 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getPlayer(final Long id) {
-        return this.playerRepository.findById(id).orElse(null);
+        return playerRepository.findById(id).orElse(null);
     }
 
     @Override
     public Page<Player> getPlayers(final Pageable pageable) {
-        return this.playerRepository.findAll(pageable);
+        return playerRepository.findAll(pageable);
     }
 
     @Override
     public Page<Question> getQuestions(Long idPlayer, Pageable pageable) {
-        return this.questionRepository.findByPlayerId(idPlayer, pageable);
+        return questionRepository.findByPlayerId(idPlayer, pageable);
     }
 
     @Override
     public Player createPlayer(final Player player) {
-        player.setPassword(this.passwordEncoder.encode(player.getPassword()));
+        player.setPassword(passwordEncoder.encode(player.getPassword()));
         player.setInscription(new Date());
         player.setLastUpdate(new Date());
-        return this.playerRepository.save(player);
+        return playerRepository.save(player);
     }
 
     @Override
     public Player updatePlayer(final Long id, final Player player) {
         player.setId(id);
-        player.setPassword(this.passwordEncoder.encode(player.getPassword()));
+        player.setPassword(passwordEncoder.encode(player.getPassword()));
         return playerRepository.save(player);
     }
 
     @Override
     public void deletePlayer(final Long id) {
-        this.playerRepository.deleteById(id);
+        playerRepository.deleteById(id);
     }
 
 }

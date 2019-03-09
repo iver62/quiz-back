@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -16,24 +16,33 @@ import java.util.List;
 public class Questionnaire implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
+    private int number;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_player")
+    @JoinColumn(nullable = false, name = "id_player")
     private Player player;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "id_category")
+    private Category category;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "id_level")
+    private Level level;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
-    private List<Question> questions;
+    private Set<Question> questions;
 
-    @Column(nullable = false)
-    private double score;
+    private Double score;
 
-    @Column(nullable = false)
-    private double time;
+    private Double time;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date validationDate;
 
 }

@@ -23,17 +23,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getCategory(final Long id) {
-        return this.categoryRepository.findById(id).orElse(null);
+        return categoryRepository.findById(id).orElse(null);
     }
 
     @Override
     public Page<Category> getCategories(final Pageable pageable) {
-        return this.categoryRepository.findAll(pageable);
+        return categoryRepository.findAll(pageable);
     }
 
     @Override
     public Page<Question> getQuestions(Long idCategory, Pageable pageable) {
-        return this.questionRepository.findByCategoryId(idCategory, pageable);
+        return questionRepository.findByCategoryId(idCategory, pageable);
     }
 
     @Override
@@ -41,19 +41,19 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(Utils.capitalizeFirstLetter(category.getName()));
         category.setCreationDate(new Date());
         category.setLastUpdate(new Date());
-        return this.categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
     public Category updateCategory(final Long id, final Category category) {
         category.setId(id);
         category.setName(Utils.capitalizeFirstLetter(category.getName()));
-        return this.categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override
     public void deleteCategory(final Long id) {
-        this.categoryRepository.deleteById(id);
+        categoryRepository.deleteById(id);
     }
 
 }

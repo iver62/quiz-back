@@ -23,18 +23,17 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public Level getLevel(final Long id) {
-        return this.levelRepository.findById(id).orElse(null);
+        return levelRepository.findById(id).orElse(null);
     }
 
     @Override
     public Page<Level> getLevels(final Pageable pageable) {
-        return this.levelRepository.findAll(pageable);
+        return levelRepository.findAll(pageable);
     }
-
 
     @Override
     public Page<Question> getQuestions(Long idLevel, Pageable pageable) {
-        return this.questionRepository.findByLevelId(idLevel, pageable);
+        return questionRepository.findByLevelId(idLevel, pageable);
     }
 
     @Override
@@ -42,18 +41,18 @@ public class LevelServiceImpl implements LevelService {
         level.setName(Utils.capitalizeFirstLetter(level.getName()));
         level.setCreationDate(new Date());
         level.setLastUpdate(new Date());
-        return this.levelRepository.save(level);
+        return levelRepository.save(level);
     }
 
     @Override
     public Level updateLevel(final Long id, final Level level) {
         level.setId(id);
         level.setName(Utils.capitalizeFirstLetter(level.getName()));
-        return this.levelRepository.save(level);
+        return levelRepository.save(level);
     }
 
     @Override
     public void deleteLevel(final Long id) {
-        this.levelRepository.deleteById(id);
+        levelRepository.deleteById(id);
     }
 }

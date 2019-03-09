@@ -20,7 +20,7 @@ public class PlayerRestController {
 
     @GetMapping(value = "{id}")
     public Player getUser(@PathVariable final Long id) {
-        return this.playerService.getPlayer(id);
+        return playerService.getPlayer(id);
     }
 
     @GetMapping
@@ -30,7 +30,7 @@ public class PlayerRestController {
             @RequestParam(value = "property", defaultValue = "pseudo") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return this.playerService.getPlayers(PageRequest.of(page, size, new Sort(dir, property)));
+        return playerService.getPlayers(PageRequest.of(page, size, new Sort(dir, property)));
     }
 
     @GetMapping(value = "{id}/questions")
@@ -41,22 +41,22 @@ public class PlayerRestController {
             @RequestParam(value = "property", defaultValue = "title") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return this.playerService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property)));
+        return playerService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property)));
     }
 
     @PostMapping
     public Player createPlayer(@Valid @RequestBody final Player player) {
-        return this.playerService.createPlayer(player);
+        return playerService.createPlayer(player);
     }
 
     @PutMapping(value = "{id}")
     public Player updatePlayer(@PathVariable final Long id, @Valid @RequestBody final Player player) {
-        return this.playerService.updatePlayer(id, player);
+        return playerService.updatePlayer(id, player);
     }
 
     @DeleteMapping(value = "{id}")
     public void deletePlayer(@PathVariable final Long id) {
-        this.playerService.deletePlayer(id);
+        playerService.deletePlayer(id);
     }
 
 }
