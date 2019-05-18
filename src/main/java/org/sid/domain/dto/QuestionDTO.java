@@ -27,8 +27,6 @@ public class QuestionDTO {
     private LevelDTO level;
     @NotNull
     private PlayerDTO player;
-    @NotNull
     private Date creationDate;
-    @NotNull
     private Date lastUpdate;
 }

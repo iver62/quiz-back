@@ -26,8 +26,6 @@ public class PlayerDTO {
     @NotNull
     private Role role;
     private String photo;
-    @NotNull
     private Date inscription;
-    @NotNull
     private Date lastUpdate;
 }

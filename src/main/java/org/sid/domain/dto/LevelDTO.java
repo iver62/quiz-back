@@ -18,8 +18,6 @@ public class LevelDTO {
     @Size(min = 1, max = 256)
     private String name;
     private String image;
-    @NotNull
     private Date creationDate;
-    @NotNull
     private Date lastUpdate;
 }
