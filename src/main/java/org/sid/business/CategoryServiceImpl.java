@@ -1,7 +1,7 @@
 package org.sid.business;
 
-import org.sid.entities.Category;
-import org.sid.entities.Question;
+import org.sid.domain.entities.Category;
+import org.sid.domain.entities.Question;
 import org.sid.repository.CategoryRepository;
 import org.sid.repository.QuestionRepository;
 import org.sid.utils.Utils;

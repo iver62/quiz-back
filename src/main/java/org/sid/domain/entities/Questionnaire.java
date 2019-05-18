@@ -1,4 +1,4 @@
-package org.sid.entities;
+package org.sid.domain.entities;
 
 import lombok.*;
 
@@ -13,19 +13,18 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Question implements Serializable {
+public class Questionnaire implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
-    private String title;
+    private int number;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private Set<Answer> answers;
-
-    private String image;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "id_player")
+    private Player player;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "id_category")
@@ -35,16 +34,15 @@ public class Question implements Serializable {
     @JoinColumn(nullable = false, name = "id_level")
     private Level level;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "id_player")
-    private Player player;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "questionnaire_question", joinColumns = @JoinColumn(name = "questionnaire_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
+    private Set<Question> questions;
+
+    private Double score;
+
+    private Double time;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date creationDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date lastUpdate;
+    private Date validationDate;
 
 }

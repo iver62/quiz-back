@@ -1,4 +1,4 @@
-package org.sid.entities;
+package org.sid.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -26,6 +26,9 @@ public class Player implements Serializable {
     @JsonIgnore
     @Column(nullable = false)
     private String password;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateOfBirth;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

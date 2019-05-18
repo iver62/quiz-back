@@ -1,6 +1,6 @@
 package org.sid.business;
 
-import org.sid.entities.Question;
+import org.sid.domain.entities.Question;
 import org.sid.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,7 +1,7 @@
 package org.sid.business;
 
-import org.sid.entities.Question;
-import org.sid.entities.Questionnaire;
+import org.sid.domain.entities.Question;
+import org.sid.domain.entities.Questionnaire;
 import org.sid.repository.QuestionRepository;
 import org.sid.repository.QuestionnaireRepository;
 import org.springframework.beans.factory.annotation.Autowired;

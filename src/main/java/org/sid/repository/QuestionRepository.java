@@ -1,6 +1,6 @@
 package org.sid.repository;
 
-import org.sid.entities.Question;
+import org.sid.domain.entities.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

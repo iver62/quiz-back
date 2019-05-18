@@ -1,6 +1,6 @@
 package org.sid.repository;
 
-import org.sid.entities.Category;
+import org.sid.domain.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
