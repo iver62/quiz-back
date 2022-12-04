@@ -1,7 +1,7 @@
 package org.sid.services;
 
 import org.modelmapper.ModelMapper;
-import org.sid.business.CategoryService;
+import org.sid.business.CategoryServiceImpl;
 import org.sid.domain.dto.CategoryDTO;
 import org.sid.domain.entities.Category;
 import org.sid.domain.entities.Question;
@@ -17,11 +17,15 @@ import javax.validation.Valid;
 @RequestMapping(value = "api/category")
 public class CategoryRestController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryServiceImpl categoryService;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public CategoryRestController(CategoryServiceImpl categoryService, ModelMapper modelMapper) {
+        this.categoryService = categoryService;
+        this.modelMapper = modelMapper;
+    }
 
     /**
      * @param id
@@ -29,7 +33,7 @@ public class CategoryRestController {
      */
     @GetMapping(value = "{id}")
     public Category getCategory(@PathVariable final Long id) {
-        return categoryService.getCategory(id);
+        return categoryService.getOne(id);
     }
 
     /**
@@ -46,7 +50,7 @@ public class CategoryRestController {
             @RequestParam(value = "property", defaultValue = "name") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return categoryService.getCategories(PageRequest.of(page, size, new Sort(dir, property)));
+        return categoryService.getAll(PageRequest.of(page, size, new Sort(dir, property)));
     }
 
     /**
@@ -75,7 +79,7 @@ public class CategoryRestController {
     @PostMapping
     public Category createCategory(@Valid @RequestBody final CategoryDTO categoryDTO) {
         Category category = convertToEntity(categoryDTO);
-        return categoryService.createCategory(category);
+        return categoryService.create(category);
     }
 
     /**
@@ -86,7 +90,7 @@ public class CategoryRestController {
     @PutMapping(value = "{id}")
     public Category updateCategory(@PathVariable final Long id, @Valid @RequestBody final CategoryDTO categoryDTO) {
         Category category = convertToEntity(categoryDTO);
-        return categoryService.updateCategory(id, category);
+        return categoryService.update(id, category);
     }
 
     /**
@@ -94,10 +98,10 @@ public class CategoryRestController {
      */
     @DeleteMapping(value = "{id}")
     public void deleteCategory(@PathVariable final Long id) {
-        categoryService.deleteCategory(id);
+        categoryService.delete(id);
     }
 
-    private Category convertToEntity(CategoryDTO categoryDTO) {
+    private Category convertToEntity(final CategoryDTO categoryDTO) {
         return modelMapper.map(categoryDTO, Category.class);
     }
 

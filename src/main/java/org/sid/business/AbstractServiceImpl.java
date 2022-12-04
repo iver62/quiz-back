@@ -1,0 +1,36 @@
+package org.sid.business;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import java.io.Serializable;
+
+public abstract class AbstractServiceImpl<T extends Serializable> implements Operations<T> {
+    @Override
+    public T getOne(final Long id) {
+        return getRepository().findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<T> getAll(final Pageable pageable) {
+        return getRepository().findAll(pageable);
+    }
+
+    @Override
+    public T create(final T t) {
+        return null;
+    }
+
+    @Override
+    public T update(final Long id, final T t) {
+        return null;
+    }
+
+    @Override
+    public void delete(final Long id) {
+        getRepository().deleteById(id);
+    }
+
+    protected abstract PagingAndSortingRepository<T, Long> getRepository();
+}

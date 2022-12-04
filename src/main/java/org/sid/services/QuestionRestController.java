@@ -1,7 +1,7 @@
 package org.sid.services;
 
 import org.modelmapper.ModelMapper;
-import org.sid.business.QuestionService;
+import org.sid.business.QuestionServiceImpl;
 import org.sid.domain.dto.QuestionDTO;
 import org.sid.domain.entities.Question;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,15 @@ import javax.validation.Valid;
 @RequestMapping(value = "api/question")
 public class QuestionRestController {
 
-    @Autowired
-    private QuestionService questionService;
+    private final QuestionServiceImpl questionService;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public QuestionRestController(QuestionServiceImpl questionService, ModelMapper modelMapper) {
+        this.questionService = questionService;
+        this.modelMapper = modelMapper;
+    }
 
     /**
      * @param id
@@ -28,7 +32,7 @@ public class QuestionRestController {
      */
     @GetMapping(value = "{id}")
     public Question getQuestion(@PathVariable final Long id) {
-        return questionService.getQuestion(id);
+        return questionService.getOne(id);
     }
 
     /**
@@ -78,10 +82,10 @@ public class QuestionRestController {
      */
     @DeleteMapping(value = "{id}")
     public void deleteQuestion(@PathVariable final Long id) {
-        questionService.deleteQuestion(id);
+        questionService.delete(id);
     }
 
-    private Question convertToEntity(QuestionDTO questionDTO) {
+    private Question convertToEntity(final QuestionDTO questionDTO) {
         return modelMapper.map(questionDTO, Question.class);
     }
 

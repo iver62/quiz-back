@@ -1,7 +1,7 @@
 package org.sid.services;
 
 import org.modelmapper.ModelMapper;
-import org.sid.business.QuestionnaireService;
+import org.sid.business.QuestionnaireServiceImpl;
 import org.sid.domain.dto.QuestionnaireDTO;
 import org.sid.domain.entities.Questionnaire;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,15 @@ import javax.validation.Valid;
 @RequestMapping(value = "api/questionnaire")
 public class QuestionnaireRestController {
 
-    @Autowired
-    private QuestionnaireService questionnaireService;
+    private final QuestionnaireServiceImpl questionnaireService;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public QuestionnaireRestController(QuestionnaireServiceImpl questionnaireService, ModelMapper modelMapper) {
+        this.questionnaireService = questionnaireService;
+        this.modelMapper = modelMapper;
+    }
 
     /**
      * @param id
@@ -28,7 +32,7 @@ public class QuestionnaireRestController {
      */
     @GetMapping(value = "{id}")
     public Questionnaire getQuestionnaire(@PathVariable final Long id) {
-        return questionnaireService.getQuestionnaire(id);
+        return questionnaireService.getOne(id);
     }
 
     /**
@@ -61,7 +65,7 @@ public class QuestionnaireRestController {
      */
     @PostMapping
     public Questionnaire ceateQuestionnaire(@Valid @RequestBody final QuestionnaireDTO questionnaireDTO) {
-        return questionnaireService.createQuestionnaire(convertToEntity(questionnaireDTO));
+        return questionnaireService.create(convertToEntity(questionnaireDTO));
     }
 
     /**
@@ -71,7 +75,7 @@ public class QuestionnaireRestController {
      */
     @PutMapping(value = "{id}")
     public Questionnaire updateQuestionnaire(@PathVariable final Long id, @RequestBody final QuestionnaireDTO questionnaireDTO) {
-        return questionnaireService.updateQuestionnaire(id, convertToEntity(questionnaireDTO));
+        return questionnaireService.update(id, convertToEntity(questionnaireDTO));
     }
 
     /**
@@ -79,10 +83,10 @@ public class QuestionnaireRestController {
      */
     @DeleteMapping(value = "{id}")
     public void deleteQuestionnaire(@PathVariable final Long id) {
-        questionnaireService.deleteQuestionnaire(id);
+        questionnaireService.delete(id);
     }
 
-    private Questionnaire convertToEntity(QuestionnaireDTO questionnaireDTO) {
+    private Questionnaire convertToEntity(final QuestionnaireDTO questionnaireDTO) {
         return modelMapper.map(questionnaireDTO, Questionnaire.class);
     }
 }

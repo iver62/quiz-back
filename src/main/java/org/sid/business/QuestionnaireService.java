@@ -6,13 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface QuestionnaireService {
 
-    Questionnaire getQuestionnaire(final Long id);
-
-    Page<Questionnaire> getQuestionnaires(final Long idCategory, final Long idLevel, final Long idPlayer, final Pageable pageable);
-
-    Questionnaire createQuestionnaire(final Questionnaire questionnaire);
-
-    Questionnaire updateQuestionnaire(final Long id, final Questionnaire questionnaire);
-
-    void deleteQuestionnaire(final Long id);
+    Page<Questionnaire> getQuestionnaires(Long idCategory, Long idLevel, Long idPlayer, Pageable pageable);
 }

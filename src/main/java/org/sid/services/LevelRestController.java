@@ -1,7 +1,7 @@
 package org.sid.services;
 
 import org.modelmapper.ModelMapper;
-import org.sid.business.LevelService;
+import org.sid.business.LevelServiceImpl;
 import org.sid.domain.dto.LevelDTO;
 import org.sid.domain.entities.Level;
 import org.sid.domain.entities.Question;
@@ -17,15 +17,19 @@ import javax.validation.Valid;
 @RequestMapping(value = "api/level")
 public class LevelRestController {
 
-    @Autowired
-    private LevelService levelService;
+    private final LevelServiceImpl levelService;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public LevelRestController(LevelServiceImpl levelService, ModelMapper modelMapper) {
+        this.levelService = levelService;
+        this.modelMapper = modelMapper;
+    }
 
     @GetMapping(value = "{id}")
     public Level getLevel(@PathVariable final Long id) {
-        return levelService.getLevel(id);
+        return levelService.getOne(id);
     }
 
     /**
@@ -42,7 +46,7 @@ public class LevelRestController {
             @RequestParam(value = "property", defaultValue = "name") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return levelService.getLevels(PageRequest.of(page, size, new Sort(dir, property)));
+        return levelService.getAll(PageRequest.of(page, size, new Sort(dir, property)));
     }
 
     /**
@@ -71,7 +75,7 @@ public class LevelRestController {
     @PostMapping
     public Level createLevel(@Valid @RequestBody final LevelDTO levelDTO) {
         Level level = convertToEntity(levelDTO);
-        return levelService.createLevel(level);
+        return levelService.create(level);
     }
 
     /**
@@ -82,7 +86,7 @@ public class LevelRestController {
     @PutMapping(value = "{id}")
     public Level updateLevel(@PathVariable final Long id, @Valid @RequestBody final LevelDTO levelDTO) {
         Level level = convertToEntity(levelDTO);
-        return levelService.updateLevel(id, level);
+        return levelService.update(id, level);
     }
 
     /**
@@ -90,10 +94,10 @@ public class LevelRestController {
      */
     @DeleteMapping(value = "{id}")
     public void deleteLevel(@PathVariable final Long id) {
-        levelService.deleteLevel(id);
+        levelService.delete(id);
     }
 
-    private Level convertToEntity(LevelDTO levelDTO) {
+    private Level convertToEntity(final LevelDTO levelDTO) {
         return modelMapper.map(levelDTO, Level.class);
     }
 }

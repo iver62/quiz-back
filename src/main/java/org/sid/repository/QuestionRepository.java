@@ -11,20 +11,20 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    Page<Question> findByCategoryId(final Long idCategory, final Pageable pageable);
+    Page<Question> findByCategoryId(Long idCategory, Pageable pageable);
 
-    Page<Question> findByLevelId(final Long idLevel, final Pageable pageable);
+    Page<Question> findByLevelId(Long idLevel, Pageable pageable);
 
-    Page<Question> findByPlayerId(final Long idPlayer, final Pageable pageable);
+    Page<Question> findByPlayerId(Long idPlayer, Pageable pageable);
 
-    Page<Question> findByCategoryIdAndLevelId(final Long idCategory, final Long idLevel, final Pageable pageable);
+    Page<Question> findByCategoryIdAndLevelId(Long idCategory, Long idLevel, Pageable pageable);
 
-    Page<Question> findByCategoryIdAndPlayerId(final Long idCategory, final Long idPlayer, final Pageable pageable);
+    Page<Question> findByCategoryIdAndPlayerId(Long idCategory, Long idPlayer, Pageable pageable);
 
-    Page<Question> findByLevelIdAndPlayerId(final Long idLevel, final Long idPlayer, final Pageable pageable);
+    Page<Question> findByLevelIdAndPlayerId(Long idLevel, Long idPlayer, Pageable pageable);
 
-    Page<Question> findByCategoryIdAndLevelIdAndPlayerId(final Long idCategory, final Long idLevel, final Long idPlayer, final Pageable pageable);
+    Page<Question> findByCategoryIdAndLevelIdAndPlayerId(Long idCategory, Long idLevel, Long idPlayer, Pageable pageable);
 
-    List<Question> findByCategoryIdAndLevelIdAndPlayerIdNot(final Long idCategory, final Long idLevel, final Long idPlayer);
+    List<Question> findByCategoryIdAndLevelIdAndPlayerIdNot(Long idCategory, Long idLevel, Long idPlayer);
 
 }

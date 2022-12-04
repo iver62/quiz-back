@@ -1,7 +1,7 @@
 package org.sid.services;
 
 import org.modelmapper.ModelMapper;
-import org.sid.business.PlayerService;
+import org.sid.business.PlayerServiceImpl;
 import org.sid.domain.dto.PlayerDTO;
 import org.sid.domain.entities.Player;
 import org.sid.domain.entities.Question;
@@ -17,11 +17,15 @@ import javax.validation.Valid;
 @RequestMapping(value = "api/user")
 public class PlayerRestController {
 
-    @Autowired
-    private PlayerService playerService;
+    private final PlayerServiceImpl playerService;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public PlayerRestController(PlayerServiceImpl playerService, ModelMapper modelMapper) {
+        this.playerService = playerService;
+        this.modelMapper = modelMapper;
+    }
 
     /**
      * @param id
@@ -29,7 +33,7 @@ public class PlayerRestController {
      */
     @GetMapping(value = "{id}")
     public Player getUser(@PathVariable final Long id) {
-        return playerService.getPlayer(id);
+        return playerService.getOne(id);
     }
 
     /**
@@ -46,7 +50,7 @@ public class PlayerRestController {
             @RequestParam(value = "property", defaultValue = "pseudo") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return playerService.getPlayers(PageRequest.of(page, size, new Sort(dir, property)));
+        return playerService.getAll(PageRequest.of(page, size, new Sort(dir, property)));
     }
 
     /**
@@ -74,7 +78,7 @@ public class PlayerRestController {
      */
     @PostMapping
     public Player createPlayer(@Valid @RequestBody final PlayerDTO playerDTO) {
-        return playerService.createPlayer(convertToEntity(playerDTO));
+        return playerService.create(convertToEntity(playerDTO));
     }
 
     /**
@@ -84,7 +88,7 @@ public class PlayerRestController {
      */
     @PutMapping(value = "{id}")
     public Player updatePlayer(@PathVariable final Long id, @Valid @RequestBody final PlayerDTO playerDTO) {
-        return playerService.updatePlayer(id, convertToEntity(playerDTO));
+        return playerService.update(id, convertToEntity(playerDTO));
     }
 
     /**
@@ -92,10 +96,10 @@ public class PlayerRestController {
      */
     @DeleteMapping(value = "{id}")
     public void deletePlayer(@PathVariable final Long id) {
-        playerService.deletePlayer(id);
+        playerService.delete(id);
     }
 
-    private Player convertToEntity(PlayerDTO playerDTO) {
+    private Player convertToEntity(final PlayerDTO playerDTO) {
         return modelMapper.map(playerDTO, Player.class);
     }
 
