@@ -1,5 +1,6 @@
 package org.sid.services;
 
+import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.sid.business.PlayerServiceImpl;
 import org.sid.domain.dto.PlayerDTO;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,8 +34,8 @@ public class PlayerRestController {
      * @return
      */
     @GetMapping(value = "{id}")
-    public Player getUser(@PathVariable final Long id) {
-        return playerService.getOne(id);
+    public ResponseEntity<Player> getUser(@PathVariable final Long id) {
+        return ResponseEntity.ok(playerService.getOne(id));
     }
 
     /**
@@ -44,13 +46,13 @@ public class PlayerRestController {
      * @return
      */
     @GetMapping
-    public Page<Player> getUsers(
+    public ResponseEntity<Page<Player>> getUsers(
             @RequestParam(value = "page", defaultValue = "0") final int page,
             @RequestParam(value = "size", defaultValue = "10") final int size,
             @RequestParam(value = "property", defaultValue = "pseudo") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return playerService.getAll(PageRequest.of(page, size, new Sort(dir, property)));
+        return ResponseEntity.ok(playerService.getAll(PageRequest.of(page, size, new Sort(dir, property))));
     }
 
     /**
@@ -62,14 +64,14 @@ public class PlayerRestController {
      * @return
      */
     @GetMapping(value = "{id}/questions")
-    public Page<Question> getQuestions(
+    public ResponseEntity<Page<Question>> getQuestions(
             @PathVariable final Long id,
             @RequestParam(value = "page", defaultValue = "0") final int page,
             @RequestParam(value = "size", defaultValue = "10") final int size,
             @RequestParam(value = "property", defaultValue = "title") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return playerService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property)));
+        return ResponseEntity.ok(playerService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property))));
     }
 
     /**
@@ -77,8 +79,8 @@ public class PlayerRestController {
      * @return
      */
     @PostMapping
-    public Player createPlayer(@Valid @RequestBody final PlayerDTO playerDTO) {
-        return playerService.create(convertToEntity(playerDTO));
+    public ResponseEntity<Player> createPlayer(@Valid @RequestBody final PlayerDTO playerDTO) {
+        return ResponseEntity.ok(playerService.create(convertToEntity(playerDTO)));
     }
 
     /**
@@ -87,8 +89,8 @@ public class PlayerRestController {
      * @return
      */
     @PutMapping(value = "{id}")
-    public Player updatePlayer(@PathVariable final Long id, @Valid @RequestBody final PlayerDTO playerDTO) {
-        return playerService.update(id, convertToEntity(playerDTO));
+    public ResponseEntity<Player> updatePlayer(@PathVariable final Long id, @Valid @RequestBody final PlayerDTO playerDTO) {
+        return ResponseEntity.ok(playerService.update(id, convertToEntity(playerDTO)));
     }
 
     /**

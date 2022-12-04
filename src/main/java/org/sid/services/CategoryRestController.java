@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,8 +33,8 @@ public class CategoryRestController {
      * @return
      */
     @GetMapping(value = "{id}")
-    public Category getCategory(@PathVariable final Long id) {
-        return categoryService.getOne(id);
+    public ResponseEntity<Category> getCategory(@PathVariable final Long id) {
+        return ResponseEntity.ok(categoryService.getOne(id));
     }
 
     /**
@@ -44,13 +45,13 @@ public class CategoryRestController {
      * @return
      */
     @GetMapping
-    public Page<Category> getCategories(
+    public ResponseEntity<Page<Category>> getCategories(
             @RequestParam(value = "page", defaultValue = "0") final int page,
             @RequestParam(value = "size", defaultValue = "10") final int size,
             @RequestParam(value = "property", defaultValue = "name") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return categoryService.getAll(PageRequest.of(page, size, new Sort(dir, property)));
+        return ResponseEntity.ok(categoryService.getAll(PageRequest.of(page, size, new Sort(dir, property))));
     }
 
     /**
@@ -62,14 +63,14 @@ public class CategoryRestController {
      * @return
      */
     @GetMapping(value = "{id}/questions")
-    public Page<Question> getQuestions(
+    public ResponseEntity<Page<Question>> getQuestions(
             @PathVariable final Long id,
             @RequestParam(value = "page", defaultValue = "0") final int page,
             @RequestParam(value = "size", defaultValue = "10") final int size,
             @RequestParam(value = "property", defaultValue = "title") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return categoryService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property)));
+        return ResponseEntity.ok(categoryService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property))));
     }
 
     /**
@@ -77,9 +78,9 @@ public class CategoryRestController {
      * @return
      */
     @PostMapping
-    public Category createCategory(@Valid @RequestBody final CategoryDTO categoryDTO) {
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody final CategoryDTO categoryDTO) {
         Category category = convertToEntity(categoryDTO);
-        return categoryService.create(category);
+        return ResponseEntity.ok(categoryService.create(category));
     }
 
     /**
@@ -88,9 +89,9 @@ public class CategoryRestController {
      * @return
      */
     @PutMapping(value = "{id}")
-    public Category updateCategory(@PathVariable final Long id, @Valid @RequestBody final CategoryDTO categoryDTO) {
+    public ResponseEntity<Category> updateCategory(@PathVariable final Long id, @Valid @RequestBody final CategoryDTO categoryDTO) {
         Category category = convertToEntity(categoryDTO);
-        return categoryService.update(id, category);
+        return ResponseEntity.ok(categoryService.update(id, category));
     }
 
     /**

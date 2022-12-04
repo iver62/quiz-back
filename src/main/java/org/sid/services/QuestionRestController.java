@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,8 +32,8 @@ public class QuestionRestController {
      * @return
      */
     @GetMapping(value = "{id}")
-    public Question getQuestion(@PathVariable final Long id) {
-        return questionService.getOne(id);
+    public ResponseEntity<Question> getQuestion(@PathVariable final Long id) {
+        return ResponseEntity.ok(questionService.getOne(id));
     }
 
     /**
@@ -46,7 +47,7 @@ public class QuestionRestController {
      * @return
      */
     @GetMapping
-    public Page<Question> getQuestions(
+    public ResponseEntity<Page<Question>> getQuestions(
             @RequestParam(value = "category", required = false) final Long idCategory,
             @RequestParam(value = "level", required = false) final Long idLevel,
             @RequestParam(value = "player", required = false) final Long idPlayer,
@@ -55,7 +56,7 @@ public class QuestionRestController {
             @RequestParam(value = "property", defaultValue = "title") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return questionService.getQuestions(idCategory, idLevel, idPlayer, PageRequest.of(page, size, new Sort(dir, property)));
+        return ResponseEntity.ok(questionService.getQuestions(idCategory, idLevel, idPlayer, PageRequest.of(page, size, new Sort(dir, property))));
     }
 
     /**
@@ -63,8 +64,8 @@ public class QuestionRestController {
      * @return
      */
     @PostMapping
-    public Question createQuestion(@Valid @RequestBody final QuestionDTO questionDTO) {
-        return questionService.createQuestion(convertToEntity(questionDTO));
+    public ResponseEntity<Question> createQuestion(@Valid @RequestBody final QuestionDTO questionDTO) {
+        return ResponseEntity.ok(questionService.createQuestion(convertToEntity(questionDTO)));
     }
 
     /**
@@ -73,8 +74,8 @@ public class QuestionRestController {
      * @return
      */
     @PutMapping(value = "{id}")
-    public Question updateQuestion(@PathVariable final Long id, @Valid @RequestBody final QuestionDTO questionDTO) {
-        return questionService.updateQuestion(id, convertToEntity(questionDTO));
+    public ResponseEntity<Question> updateQuestion(@PathVariable final Long id, @Valid @RequestBody final QuestionDTO questionDTO) {
+        return ResponseEntity.ok(questionService.updateQuestion(id, convertToEntity(questionDTO)));
     }
 
     /**

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,8 +32,8 @@ public class QuestionnaireRestController {
      * @return
      */
     @GetMapping(value = "{id}")
-    public Questionnaire getQuestionnaire(@PathVariable final Long id) {
-        return questionnaireService.getOne(id);
+    public ResponseEntity<Questionnaire> getQuestionnaire(@PathVariable final Long id) {
+        return ResponseEntity.ok(questionnaireService.getOne(id));
     }
 
     /**
@@ -46,7 +47,7 @@ public class QuestionnaireRestController {
      * @return
      */
     @GetMapping
-    public Page<Questionnaire> getQuestionnaires(
+    public ResponseEntity<Page<Questionnaire>> getQuestionnaires(
             @RequestParam(value = "category", required = false) final Long idCategory,
             @RequestParam(value = "level", required = false) final Long idLevel,
             @RequestParam(value = "player", required = false) final Long idPlayer,
@@ -56,7 +57,7 @@ public class QuestionnaireRestController {
             @RequestParam(value = "direction", defaultValue = "desc") final String direction
     ) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return questionnaireService.getQuestionnaires(idCategory, idLevel, idPlayer, PageRequest.of(page, size, new Sort(dir, property)));
+        return ResponseEntity.ok(questionnaireService.getQuestionnaires(idCategory, idLevel, idPlayer, PageRequest.of(page, size, new Sort(dir, property))));
     }
 
     /**
@@ -64,8 +65,8 @@ public class QuestionnaireRestController {
      * @return
      */
     @PostMapping
-    public Questionnaire ceateQuestionnaire(@Valid @RequestBody final QuestionnaireDTO questionnaireDTO) {
-        return questionnaireService.create(convertToEntity(questionnaireDTO));
+    public ResponseEntity<Questionnaire> ceateQuestionnaire(@Valid @RequestBody final QuestionnaireDTO questionnaireDTO) {
+        return ResponseEntity.ok(questionnaireService.create(convertToEntity(questionnaireDTO)));
     }
 
     /**
@@ -74,8 +75,8 @@ public class QuestionnaireRestController {
      * @return
      */
     @PutMapping(value = "{id}")
-    public Questionnaire updateQuestionnaire(@PathVariable final Long id, @RequestBody final QuestionnaireDTO questionnaireDTO) {
-        return questionnaireService.update(id, convertToEntity(questionnaireDTO));
+    public ResponseEntity<Questionnaire> updateQuestionnaire(@PathVariable final Long id, @RequestBody final QuestionnaireDTO questionnaireDTO) {
+        return ResponseEntity.ok(questionnaireService.update(id, convertToEntity(questionnaireDTO)));
     }
 
     /**
