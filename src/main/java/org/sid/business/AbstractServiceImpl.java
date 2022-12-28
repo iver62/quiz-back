@@ -1,5 +1,6 @@
 package org.sid.business;
 
+import org.sid.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -7,9 +8,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.io.Serializable;
 
 public abstract class AbstractServiceImpl<T extends Serializable> implements Operations<T> {
+
     @Override
     public T getOne(final Long id) {
-        return getRepository().findById(id).orElse(null);
+        return getRepository().findById(id)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override

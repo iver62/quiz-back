@@ -44,13 +44,13 @@ public class PlayerServiceImpl extends AbstractServiceImpl<Player> implements Pl
     public Player update(final Long id, final Player player) {
         player.setId(id);
         player.setPassword(passwordEncoder.encode(player.getPassword()));
+        player.setLastUpdate(new Date());
         return playerRepository.save(player);
     }
 
     @Override
     protected PagingAndSortingRepository<Player, Long> getRepository() {
         return playerRepository;
-
     }
 
 }

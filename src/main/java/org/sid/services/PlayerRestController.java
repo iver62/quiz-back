@@ -1,6 +1,5 @@
 package org.sid.services;
 
-import org.apache.coyote.Response;
 import org.modelmapper.ModelMapper;
 import org.sid.business.PlayerServiceImpl;
 import org.sid.domain.dto.PlayerDTO;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +33,7 @@ public class PlayerRestController {
      * @param id
      * @return
      */
-    @GetMapping(value = "{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Player> getUser(@PathVariable final Long id) {
         return ResponseEntity.ok(playerService.getOne(id));
     }
@@ -63,7 +63,7 @@ public class PlayerRestController {
      * @param direction
      * @return
      */
-    @GetMapping(value = "{id}/questions")
+    @GetMapping("{id}/questions")
     public ResponseEntity<Page<Question>> getQuestions(
             @PathVariable final Long id,
             @RequestParam(value = "page", defaultValue = "0") final int page,
@@ -80,7 +80,9 @@ public class PlayerRestController {
      */
     @PostMapping
     public ResponseEntity<Player> createPlayer(@Valid @RequestBody final PlayerDTO playerDTO) {
-        return ResponseEntity.ok(playerService.create(convertToEntity(playerDTO)));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(playerService.create(convertToEntity(playerDTO)));
     }
 
     /**
@@ -88,7 +90,7 @@ public class PlayerRestController {
      * @param playerDTO
      * @return
      */
-    @PutMapping(value = "{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Player> updatePlayer(@PathVariable final Long id, @Valid @RequestBody final PlayerDTO playerDTO) {
         return ResponseEntity.ok(playerService.update(id, convertToEntity(playerDTO)));
     }
@@ -96,9 +98,10 @@ public class PlayerRestController {
     /**
      * @param id
      */
-    @DeleteMapping(value = "{id}")
-    public void deletePlayer(@PathVariable final Long id) {
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deletePlayer(@PathVariable final Long id) {
         playerService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     private Player convertToEntity(final PlayerDTO playerDTO) {
