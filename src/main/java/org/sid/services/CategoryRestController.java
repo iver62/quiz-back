@@ -1,5 +1,6 @@
 package org.sid.services;
 
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.sid.business.CategoryServiceImpl;
 import org.sid.domain.dto.CategoryDTO;
@@ -11,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "api/category")
@@ -51,7 +50,7 @@ public class CategoryRestController {
             @RequestParam(value = "property", defaultValue = "name") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(categoryService.getAll(PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(categoryService.getAll(PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**
@@ -70,7 +69,7 @@ public class CategoryRestController {
             @RequestParam(value = "property", defaultValue = "title") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(categoryService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(categoryService.getQuestions(id, PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**

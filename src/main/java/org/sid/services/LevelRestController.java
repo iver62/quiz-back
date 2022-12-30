@@ -1,5 +1,6 @@
 package org.sid.services;
 
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.sid.business.LevelServiceImpl;
 import org.sid.domain.dto.LevelDTO;
@@ -11,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "api/level")
@@ -47,7 +46,7 @@ public class LevelRestController {
             @RequestParam(value = "property", defaultValue = "name") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(levelService.getAll(PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(levelService.getAll(PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**
@@ -66,7 +65,7 @@ public class LevelRestController {
             @RequestParam(value = "property", defaultValue = "title") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(levelService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(levelService.getQuestions(id, PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**

@@ -1,5 +1,6 @@
 package org.sid.services;
 
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.sid.business.QuestionServiceImpl;
 import org.sid.domain.dto.QuestionDTO;
@@ -10,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "api/question")
@@ -31,7 +30,7 @@ public class QuestionRestController {
      * @param id
      * @return
      */
-    @GetMapping(value = "{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Question> getQuestion(@PathVariable final Long id) {
         return ResponseEntity.ok(questionService.getOne(id));
     }
@@ -51,12 +50,12 @@ public class QuestionRestController {
             @RequestParam(value = "category", required = false) final Long idCategory,
             @RequestParam(value = "level", required = false) final Long idLevel,
             @RequestParam(value = "player", required = false) final Long idPlayer,
-            @RequestParam(value = "page", defaultValue = "0") final int page,
-            @RequestParam(value = "size", defaultValue = "10") final int size,
-            @RequestParam(value = "property", defaultValue = "title") final String property,
-            @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
+            @RequestParam(value = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(value = "size", required = false, defaultValue = "20") final int size,
+            @RequestParam(value = "property", required = false, defaultValue = "title") final String property,
+            @RequestParam(value = "direction", required = false, defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(questionService.getQuestions(idCategory, idLevel, idPlayer, PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(questionService.getQuestions(idCategory, idLevel, idPlayer, PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**
@@ -73,7 +72,7 @@ public class QuestionRestController {
      * @param questionDTO
      * @return
      */
-    @PutMapping(value = "{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Question> updateQuestion(@PathVariable final Long id, @Valid @RequestBody final QuestionDTO questionDTO) {
         return ResponseEntity.ok(questionService.updateQuestion(id, convertToEntity(questionDTO)));
     }
@@ -81,7 +80,7 @@ public class QuestionRestController {
     /**
      * @param id
      */
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping("{id}")
     public void deleteQuestion(@PathVariable final Long id) {
         questionService.delete(id);
     }

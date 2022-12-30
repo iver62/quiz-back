@@ -1,11 +1,11 @@
 package org.sid.domain.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 

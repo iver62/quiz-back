@@ -1,11 +1,11 @@
 package org.sid.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.sid.security.Role;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -19,7 +19,7 @@ import java.util.Objects;
 public class Player implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)

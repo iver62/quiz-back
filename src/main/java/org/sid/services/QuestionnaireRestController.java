@@ -1,5 +1,6 @@
 package org.sid.services;
 
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.sid.business.QuestionnaireServiceImpl;
 import org.sid.domain.dto.QuestionnaireDTO;
@@ -10,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "api/questionnaire")
@@ -57,7 +56,7 @@ public class QuestionnaireRestController {
             @RequestParam(value = "direction", defaultValue = "desc") final String direction
     ) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(questionnaireService.getQuestionnaires(idCategory, idLevel, idPlayer, PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(questionnaireService.getQuestionnaires(idCategory, idLevel, idPlayer, PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**

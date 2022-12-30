@@ -7,7 +7,7 @@ import org.sid.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class PlayerServiceImpl extends AbstractServiceImpl<Player> implements Pl
     }
 
     @Override
-    protected PagingAndSortingRepository<Player, Long> getRepository() {
+    protected JpaRepository<Player, Long> getRepository() {
         return playerRepository;
     }
 

@@ -1,5 +1,6 @@
 package org.sid.services;
 
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.sid.business.PlayerServiceImpl;
 import org.sid.domain.dto.PlayerDTO;
@@ -12,8 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "api/user")
@@ -52,7 +51,7 @@ public class PlayerRestController {
             @RequestParam(value = "property", defaultValue = "pseudo") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(playerService.getAll(PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(playerService.getAll(PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**
@@ -71,7 +70,7 @@ public class PlayerRestController {
             @RequestParam(value = "property", defaultValue = "title") final String property,
             @RequestParam(value = "direction", defaultValue = "asc") final String direction) {
         Sort.Direction dir = direction.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
-        return ResponseEntity.ok(playerService.getQuestions(id, PageRequest.of(page, size, new Sort(dir, property))));
+        return ResponseEntity.ok(playerService.getQuestions(id, PageRequest.of(page, size, Sort.by(dir, property))));
     }
 
     /**

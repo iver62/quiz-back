@@ -1,8 +1,8 @@
 package org.sid.domain.entities;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import java.util.Date;
 public class Level implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -24,11 +24,11 @@ public class Level implements Serializable {
     private String image;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Date creationDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Date lastUpdate;
 
 }

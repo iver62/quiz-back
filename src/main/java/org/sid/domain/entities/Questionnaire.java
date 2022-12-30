@@ -1,8 +1,8 @@
 package org.sid.domain.entities;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -16,7 +16,7 @@ import java.util.Set;
 public class Questionnaire implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

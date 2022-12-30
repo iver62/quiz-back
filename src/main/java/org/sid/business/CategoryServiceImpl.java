@@ -7,7 +7,7 @@ import org.sid.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,7 +43,7 @@ public class CategoryServiceImpl extends AbstractServiceImpl<Category> implement
 //    }
 
     @Override
-    protected PagingAndSortingRepository<Category, Long> getRepository() {
+    protected JpaRepository<Category, Long> getRepository() {
         return categoryRepository;
     }
 

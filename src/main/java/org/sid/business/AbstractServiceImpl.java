@@ -3,7 +3,7 @@ package org.sid.business;
 import org.sid.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
 
@@ -35,5 +35,5 @@ public abstract class AbstractServiceImpl<T extends Serializable> implements Ope
         getRepository().deleteById(id);
     }
 
-    protected abstract PagingAndSortingRepository<T, Long> getRepository();
+    protected abstract JpaRepository<T, Long> getRepository();
 }
