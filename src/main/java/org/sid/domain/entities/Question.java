@@ -1,5 +1,7 @@
 package org.sid.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Question implements Serializable {
 
     @Id
@@ -26,6 +29,7 @@ public class Question implements Serializable {
     @ToString.Exclude
     private Set<Answer> answers;
 
+    @JsonIgnore
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
