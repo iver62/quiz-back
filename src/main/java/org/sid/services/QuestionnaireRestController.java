@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping(value = "api/questionnaire")
 public class QuestionnaireRestController {
@@ -30,9 +32,13 @@ public class QuestionnaireRestController {
      * @param id
      * @return
      */
-    @GetMapping(value = "{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Questionnaire> getQuestionnaire(@PathVariable final Long id) {
-        return ResponseEntity.ok(questionnaireService.getOne(id));
+        Questionnaire questionnaire = questionnaireService.getOne(id);
+        if (Objects.isNull(questionnaire)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(questionnaire);
     }
 
     /**
@@ -73,7 +79,7 @@ public class QuestionnaireRestController {
      * @param questionnaireDTO
      * @return
      */
-    @PutMapping(value = "{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Questionnaire> updateQuestionnaire(@PathVariable final Long id, @RequestBody final QuestionnaireDTO questionnaireDTO) {
         return ResponseEntity.ok(questionnaireService.update(id, convertToEntity(questionnaireDTO)));
     }
@@ -81,7 +87,7 @@ public class QuestionnaireRestController {
     /**
      * @param id
      */
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping("{id}")
     public void deleteQuestionnaire(@PathVariable final Long id) {
         questionnaireService.delete(id);
     }

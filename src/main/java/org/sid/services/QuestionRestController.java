@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping(value = "api/question")
 public class QuestionRestController {
@@ -32,7 +34,11 @@ public class QuestionRestController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Question> getQuestion(@PathVariable final Long id) {
-        return ResponseEntity.ok(questionService.getOne(id));
+        Question question = questionService.getOne(id);
+        if (Objects.isNull(question)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(question);
     }
 
     /**

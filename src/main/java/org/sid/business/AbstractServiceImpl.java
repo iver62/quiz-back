@@ -1,6 +1,5 @@
 package org.sid.business;
 
-import org.sid.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +11,7 @@ public abstract class AbstractServiceImpl<T extends Serializable> implements Ope
     @Override
     public T getOne(final Long id) {
         return getRepository().findById(id)
-                .orElseThrow(ResourceNotFoundException::new);
+                .orElse(null);
     }
 
     @Override

@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping(value = "api/user")
 public class PlayerRestController {
@@ -34,7 +36,11 @@ public class PlayerRestController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Player> getUser(@PathVariable final Long id) {
-        return ResponseEntity.ok(playerService.getOne(id));
+        Player player = playerService.getOne(id);
+        if (Objects.isNull(player)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(player);
     }
 
     /**

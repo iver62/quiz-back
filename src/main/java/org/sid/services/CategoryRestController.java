@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping(value = "api/category")
 public class CategoryRestController {
@@ -31,9 +33,13 @@ public class CategoryRestController {
      * @param id
      * @return
      */
-    @GetMapping(value = "{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Category> getCategory(@PathVariable final Long id) {
-        return ResponseEntity.ok(categoryService.getOne(id));
+        Category category = categoryService.getOne(id);
+        if (Objects.isNull(category)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(category);
     }
 
     /**
@@ -61,7 +67,7 @@ public class CategoryRestController {
      * @param direction
      * @return
      */
-    @GetMapping(value = "{id}/questions")
+    @GetMapping("{id}/questions")
     public ResponseEntity<Page<Question>> getQuestions(
             @PathVariable final Long id,
             @RequestParam(value = "page", defaultValue = "0") final int page,
@@ -87,7 +93,7 @@ public class CategoryRestController {
      * @param categoryDTO
      * @return
      */
-    @PutMapping(value = "{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable final Long id, @Valid @RequestBody final CategoryDTO categoryDTO) {
         Category category = convertToEntity(categoryDTO);
         return ResponseEntity.ok(categoryService.update(id, category));
@@ -96,7 +102,7 @@ public class CategoryRestController {
     /**
      * @param id
      */
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping("{id}")
     public void deleteCategory(@PathVariable final Long id) {
         categoryService.delete(id);
     }

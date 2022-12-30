@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping(value = "api/level")
 public class LevelRestController {
@@ -27,9 +29,13 @@ public class LevelRestController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Level> getLevel(@PathVariable final Long id) {
-        return ResponseEntity.ok(levelService.getOne(id));
+        Level level = levelService.getOne(id);
+        if (Objects.isNull(level)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(level);
     }
 
     /**
@@ -57,7 +63,7 @@ public class LevelRestController {
      * @param direction
      * @return
      */
-    @GetMapping(value = "{id}/questions")
+    @GetMapping("{id}/questions")
     public ResponseEntity<Page<Question>> getQuestions(
             @PathVariable final Long id,
             @RequestParam(value = "page", defaultValue = "0") final int page,
@@ -82,7 +88,7 @@ public class LevelRestController {
      * @param levelDTO
      * @return
      */
-    @PutMapping(value = "{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Level> updateLevel(@PathVariable final Long id, @Valid @RequestBody final LevelDTO levelDTO) {
         return ResponseEntity.ok(levelService.update(id, convertToEntity(levelDTO)));
     }
@@ -90,7 +96,7 @@ public class LevelRestController {
     /**
      * @param id
      */
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping("{id}")
     public void deleteLevel(@PathVariable final Long id) {
         levelService.delete(id);
     }
